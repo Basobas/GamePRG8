@@ -15,8 +15,29 @@ body * {
 }
 
 container {
-    width:800px; height:600px;
+    width:1600px; height:800px;
     left: 50%; top: 50%;
     transform: translate(-50%, -50%);
     overflow:hidden;
+}
+sky {
+    background-image: url(../images/Full-Background.png);
+    background-repeat: repeat-x;
+    width:3200px; height:800px;
+    animation: skyanimation 8s linear infinite;
+}
+bird {
+    background-image:url(../images/frame-1.png);
+    width:150px; height: 103px;
+}
+
+
+
+@keyframes skyanimation {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  100% {
+    transform: translate(-1600px, 0px);
+  }
 }
