@@ -1,13 +1,8 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var GameObject = (function () {
     function GameObject(str, elm, x, y, height, width) {
         this.div = document.createElement(str);
@@ -28,13 +23,12 @@ var Bird = (function (_super) {
     function Bird() {
         var _this = this;
         var container = document.getElementById("container");
-        _this = _super.call(this, "bird", container, 100, 25, 103, 150) || this;
-        _this.behaviour = new Falling(_this);
-        _this.speed = 0;
+        _super.call(this, "bird", container, 100, 25, 103, 150);
+        this.behaviour = new Falling(this);
+        this.speed = 0;
         window.addEventListener("keyup", function (e) { return _this.onKeyUp(e); });
         window.addEventListener("keydown", function (e) { return _this.onKeyDown(e); });
-        _this.behaviour.draw();
-        return _this;
+        this.behaviour.draw();
     }
     Bird.prototype.move = function () {
         this.behaviour.draw();
@@ -71,7 +65,7 @@ var Game = (function () {
                 for (var _b = 0, _c = this.obstacles; _b < _c.length; _b++) {
                     var obstacle_1 = _c[_b];
                     obstacle_1.stop();
-                    document.getElementById("score").innerHTML = "Score : " + 0;
+                    document.getElementById("score").innerHTML = "GAMEOVER!";
                 }
             }
             obstacle.draw();
@@ -98,13 +92,11 @@ window.addEventListener("load", function () {
 var Obstacle = (function (_super) {
     __extends(Obstacle, _super);
     function Obstacle(i) {
-        var _this = this;
         var container = document.getElementById("container");
-        _this = _super.call(this, "obstacle", container, 200, 210, 349, 140) || this;
-        _this.speed = 3.4;
-        _this.x = i * 1000 + (Math.random() * 750);
-        _this.y = 350;
-        return _this;
+        _super.call(this, "obstacle", container, 200, 210, 349, 140);
+        this.speed = 3.4;
+        this.x = i * 1000 + (Math.random() * 750);
+        this.y = 350;
     }
     Obstacle.prototype.stop = function () {
         this.speed = 0;
@@ -137,7 +129,7 @@ var Crashing = (function () {
     }
     Crashing.prototype.draw = function () {
         this.bird.speed = 0;
-        document.getElementById("score").innerHTML = "Score : " + 0;
+        document.getElementById("score").innerHTML = "GAMEOVER";
         document.getElementById("sky").classList.add("animationpaused");
     };
     Crashing.prototype.onKeyDown = function () {

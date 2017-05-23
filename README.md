@@ -13,6 +13,7 @@ Programmeer installatie:
 Eisen PRG 8
 
 Klassendiagram
+![UML](Uml.png?raw=true "UML")
 
 - Interface: 
 Behavior is een interface voor de verschillende acties van de vogel

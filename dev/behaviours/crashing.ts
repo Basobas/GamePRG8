@@ -7,7 +7,7 @@ class Crashing implements Behaviour {
     }
     draw() {
         this.bird.speed = 0;
-        document.getElementById("score").innerHTML = "Score : " + 0;
+        document.getElementById("score").innerHTML = "GAMEOVER";
         document.getElementById("sky").classList.add("animationpaused");
     }
     onKeyDown(): void {

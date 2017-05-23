@@ -2,7 +2,7 @@ class Game {
     private bird: Bird;
     public obstacles: Array<Obstacle>;
     private static instance: Game;
-    private constructor() {
+    constructor() {
 
         this.bird = new Bird();
         this.obstacles = new Array<Obstacle>();
@@ -19,7 +19,7 @@ class Game {
                 this.bird.hit();
                 for (let obstacle of this.obstacles) {
                     obstacle.stop();
-                    document.getElementById("score").innerHTML = "Score : " + 0;
+                    document.getElementById("score").innerHTML = "GAMEOVER!"
                 }
             }
             obstacle.draw();
