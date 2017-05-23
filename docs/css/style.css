@@ -14,6 +14,12 @@ body * {
     background-repeat: no-repeat;
 }
 
+start{
+    background-color:red;
+    width: 1600px; height: 800px;
+    
+}
+
 container {
     width:1600px; height:800px;
     left: 50%; top: 50%;
@@ -25,13 +31,25 @@ sky {
     background-repeat: repeat-x;
     width:3200px; height:800px;
     animation: skyanimation 8s linear infinite;
+    z-index: -1;
+}
+obstacle {
+    background-image:url(../images/green-pipe.png);
+    width:140px; height: 349px;
+    z-index: -1;
 }
 bird {
     background-image:url(../images/frame-1.png);
     width:150px; height: 103px;
 }
-
-
+score {
+    color:black;
+    font-size : 25px;
+    padding:20px;
+}
+.animationpaused {
+    animation-play-state: paused;
+}
 
 @keyframes skyanimation {
   0% {
