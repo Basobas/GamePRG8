@@ -1,7 +1,8 @@
 # GamePRG8
 Typescript game
 [Link naar de game](https://basobas.github.io/GamePRG8/)
-Gebruik spatie om te vliegen.
+Zoom uit op je browser als de game niet volledig te zien is.
+Gebruik een key om te vliegen.
 
 Programmeer installatie:
 - Fork de game op github.

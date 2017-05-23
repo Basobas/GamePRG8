@@ -76,7 +76,11 @@ var Game = (function () {
         requestAnimationFrame(function () { return _this.gameLoop(); });
     };
     Game.prototype.endGame = function () {
-        document.getElementById("score").innerHTML = "Score : " + 0;
+        for (var _i = 0, _a = this.obstacles; _i < _a.length; _i++) {
+            var obstacle = _a[_i];
+            obstacle.stop();
+            document.getElementById("score").innerHTML = "GAMEOVER!";
+        }
     };
     Game.getInstance = function () {
         if (!Game.instance) {
@@ -131,6 +135,7 @@ var Crashing = (function () {
         this.bird.speed = 0;
         document.getElementById("score").innerHTML = "GAMEOVER";
         document.getElementById("sky").classList.add("animationpaused");
+        Game.getInstance().endGame();
     };
     Crashing.prototype.onKeyDown = function () {
     };
@@ -144,9 +149,10 @@ var Falling = (function () {
     }
     Falling.prototype.draw = function () {
         this.bird.y += this.bird.speed;
-        this.bird.speed = +2;
+        this.bird.speed = +5;
         if (this.bird.y > 615) {
             this.bird.behaviour = new Crashing(this.bird);
+            Game.getInstance().endGame();
         }
     };
     Falling.prototype.onKeyDown = function () {
@@ -162,9 +168,10 @@ var Flying = (function () {
     }
     Flying.prototype.draw = function () {
         this.bird.y += this.bird.speed;
-        this.bird.speed = -2;
+        this.bird.speed = -5;
         if (this.bird.y <= -100) {
             this.bird.behaviour = new Hit(this.bird);
+            Game.getInstance().endGame();
         }
     };
     Flying.prototype.onKeyUp = function () {

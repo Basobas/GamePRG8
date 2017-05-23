@@ -32,7 +32,10 @@ class Game {
         requestAnimationFrame(() => this.gameLoop());
     }
     public endGame(){
-        document.getElementById("score").innerHTML = "Score : " + 0;
+         for (let obstacle of this.obstacles) {
+                    obstacle.stop();
+                    document.getElementById("score").innerHTML = "GAMEOVER!"
+                }
     }
      public static getInstance() {
         if (!Game.instance) {

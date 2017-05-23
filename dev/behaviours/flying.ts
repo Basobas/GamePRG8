@@ -6,9 +6,10 @@ class Flying implements Behaviour {
     }
     draw() {
         this.bird.y += this.bird.speed;
-        this.bird.speed = -2;
+        this.bird.speed = -3;
           if (this.bird.y <= -100) {
             this.bird.behaviour = new Hit(this.bird);
+            Game.getInstance().endGame();
         }
     }
     onKeyUp(): void {
