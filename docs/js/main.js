@@ -58,7 +58,7 @@ var Game = (function () {
         this.bird = new Bird();
         this.obstacles = new Array();
         requestAnimationFrame(function () { return _this.gameLoop(); });
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 20; i++) {
             this.obstacles.push(new Obstacle(i));
         }
     }
@@ -81,10 +81,19 @@ var Game = (function () {
         this.bird.draw();
         requestAnimationFrame(function () { return _this.gameLoop(); });
     };
+    Game.prototype.endGame = function () {
+        document.getElementById("score").innerHTML = "Score : " + 0;
+    };
+    Game.getInstance = function () {
+        if (!Game.instance) {
+            Game.instance = new Game();
+        }
+        return Game.instance;
+    };
     return Game;
 }());
 window.addEventListener("load", function () {
-    var g = new Game();
+    Game.getInstance();
 });
 var Obstacle = (function (_super) {
     __extends(Obstacle, _super);
@@ -183,6 +192,7 @@ var Hit = (function () {
         this.bird.speed = +5;
         if (this.bird.y > 615) {
             this.bird.speed = 0;
+            Game.getInstance().endGame();
         }
     };
     Hit.prototype.onKeyDown = function () {
