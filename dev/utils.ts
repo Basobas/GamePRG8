@@ -4,9 +4,9 @@ class Utils {
             instance1.x + instance1.width > instance2.x &&
             instance1.y < instance2.y + instance2.height &&
             instance1.height + instance1.y > instance2.y) {
-                return true;
-        }else {
-                return false;
+            return true;
+        } else {
+            return false;
         }
     }
 }

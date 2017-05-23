@@ -8,11 +8,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var Hat = (function () {
-    function Hat() {
-    }
-    return Hat;
-}());
 var GameObject = (function () {
     function GameObject(str, elm, x, y, height, width) {
         this.div = document.createElement(str);
@@ -111,20 +106,6 @@ var Obstacle = (function (_super) {
     };
     return Obstacle;
 }(GameObject));
-var Start = (function () {
-    function Start() {
-        var _this = this;
-        var container = document.getElementById("container");
-        requestAnimationFrame(function () { return _this.gameLoop(); });
-    }
-    Start.prototype.gameLoop = function () {
-        var _this = this;
-        requestAnimationFrame(function () { return _this.gameLoop(); });
-    };
-    return Start;
-}());
-window.addEventListener("load", function () {
-});
 var Utils = (function () {
     function Utils() {
     }
@@ -181,6 +162,9 @@ var Flying = (function () {
     Flying.prototype.draw = function () {
         this.bird.y += this.bird.speed;
         this.bird.speed = -2;
+        if (this.bird.y <= -100) {
+            this.bird.behaviour = new Hit(this.bird);
+        }
     };
     Flying.prototype.onKeyUp = function () {
         this.bird.behaviour = new Falling(this.bird);

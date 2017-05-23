@@ -3,7 +3,6 @@ class Falling implements Behaviour {
 
     constructor(b: Bird) {
         this.bird = b;
-
     }
     draw() {
         this.bird.y += this.bird.speed;
@@ -19,4 +18,4 @@ class Falling implements Behaviour {
 
     }
 }
-    
+

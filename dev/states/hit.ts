@@ -3,7 +3,6 @@ class Hit implements Behaviour {
 
     constructor(b: Bird) {
         this.bird = b;
-
     }
     draw() {
         document.getElementById("sky").classList.add("animationpaused");
