@@ -10,6 +10,7 @@ class Hit implements Behaviour {
         this.bird.y += this.bird.speed;
         this.bird.speed = +5;
         if (this.bird.y > 615) {
+            console.log("nu");
             this.bird.speed = 0;
             Game.getInstance().endGame();
         }

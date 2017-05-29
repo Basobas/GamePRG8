@@ -6,7 +6,7 @@ class Falling implements Behaviour {
     }
     draw() {
         this.bird.y += this.bird.speed;
-        this.bird.speed = +3;
+        this.bird.speed = +6;
         if (this.bird.y > 615) {
             this.bird.behaviour = new Crashing(this.bird);
             Game.getInstance().endGame();
