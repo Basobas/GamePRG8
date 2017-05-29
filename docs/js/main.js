@@ -149,7 +149,7 @@ var Falling = (function () {
     }
     Falling.prototype.draw = function () {
         this.bird.y += this.bird.speed;
-        this.bird.speed = +5;
+        this.bird.speed = +6;
         if (this.bird.y > 615) {
             this.bird.behaviour = new Crashing(this.bird);
             Game.getInstance().endGame();
@@ -167,15 +167,15 @@ var Flying = (function () {
         this.bird = b;
     }
     Flying.prototype.draw = function () {
+        this.bird.speed = -48;
         this.bird.y += this.bird.speed;
-        this.bird.speed = -5;
         if (this.bird.y <= -100) {
             this.bird.behaviour = new Hit(this.bird);
             Game.getInstance().endGame();
         }
+        this.bird.behaviour = new Falling(this.bird);
     };
     Flying.prototype.onKeyUp = function () {
-        this.bird.behaviour = new Falling(this.bird);
     };
     Flying.prototype.onKeyDown = function () {
     };
@@ -190,6 +190,7 @@ var Hit = (function () {
         this.bird.y += this.bird.speed;
         this.bird.speed = +5;
         if (this.bird.y > 615) {
+            console.log("nu");
             this.bird.speed = 0;
             Game.getInstance().endGame();
         }
