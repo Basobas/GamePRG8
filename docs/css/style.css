@@ -15,7 +15,7 @@ body * {
 }
 
 start{
-    background-color:red;
+    background-image: url(../images/Full-Background.png);
     width: 1600px; height: 800px;
     
 }
@@ -34,8 +34,8 @@ sky {
     z-index: -1;
 }
 obstacle {
-    background-image:url(../images/green-pipe.png);
-    width:140px; height: 349px;
+    background-image:url(../images/pipe.png);
+    width:50px; height: 50px;
     z-index: -1;
 }
 bird {
@@ -50,6 +50,24 @@ score {
 .animationpaused {
     animation-play-state: paused;
 }
+
+title {
+
+    font-size: 150px;
+    font-family: Impact, 'Arial Narrow Bold', sans-serif
+}
+
+startbutton {
+    width:300px; height:300px;
+    background-image: url('../images/startknop.png');
+
+}
+gameover{
+   width: 1600px; height: 800px;
+   background-color: white;
+
+}
+
 
 @keyframes skyanimation {
   0% {

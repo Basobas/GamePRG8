@@ -1,5 +1,5 @@
 interface Behaviour {
-    onKeyDown(): void
-    onKeyUp(): void
+    onKeyDown(event: KeyboardEvent): void
+    onKeyUp(event: KeyboardEvent): void
     draw(): void
 }

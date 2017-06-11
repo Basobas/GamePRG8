@@ -9,13 +9,15 @@ class Falling implements Behaviour {
         this.bird.speed = +3;
         if (this.bird.y > 615) {
             this.bird.behaviour = new Crashing(this.bird);
-            Game.getInstance().endGame();
+   
         }
     }
-    onKeyDown(): void {
-        this.bird.behaviour = new Flying(this.bird);
+    onKeyDown(event: KeyboardEvent): void {
+        if (event.keyCode == Keys.SPACE) {
+           this.bird.behaviour = new Flying(this.bird);
+        }
     }
-    onKeyUp(): void {
+    onKeyUp(event: KeyboardEvent): void {
 
     }
 }

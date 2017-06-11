@@ -5,12 +5,12 @@ class Bird extends GameObject {
     public behaviour: Behaviour;
     public speed: number;
     public div: HTMLElement;
-    public x: number;
-    public y: number;
+
+
 
     constructor() {
         let container: HTMLElement = document.getElementById("container");
-        super("bird", container, 100, 25, 103, 150);
+        super("bird", container, 100, 25, 70, 110);
         this.behaviour = new Falling(this);
         this.speed = 0;
         window.addEventListener("keyup", (e: KeyboardEvent) => this.onKeyUp(e));
@@ -21,19 +21,15 @@ class Bird extends GameObject {
     public move() {
         this.behaviour.draw();
     }
-    public hit() {
-        this.behaviour = new Hit(this);
-    }
+
 
     private onKeyUp(event: KeyboardEvent): void {
         console.log(event.keyCode);
-        this.behaviour.onKeyUp();
+        this.behaviour.onKeyUp(event);
     }
     private onKeyDown(event: KeyboardEvent): void {
         console.log(event.keyCode);
-        this.behaviour.onKeyDown();
+        this.behaviour.onKeyDown(event);
     }
-
-
 
 }

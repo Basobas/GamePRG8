@@ -1,50 +1,29 @@
+/// <reference path="views/start.ts"/>
 class Game {
-    private bird: Bird;
-    public obstacles: Array<Obstacle>;
-    private static instance: Game;
-    constructor() {
+    public static instance: Game;
+    private screen: Screens.View;
 
-        this.bird = new Bird();
-        this.obstacles = new Array<Obstacle>();
-
-        requestAnimationFrame(() => this.gameLoop());
-        for (let i = 0; i < 20; i++) {
-            this.obstacles.push(new Obstacle(i));
-        }
+    private constructor() {
     }
-
-    private gameLoop() {
-        for (let obstacle of this.obstacles) {
-            if (Utils.checkCollision(this.bird, obstacle)) {
-                this.bird.hit();
-                for (let obstacle of this.obstacles) {
-                    obstacle.stop();
-                    document.getElementById("score").innerHTML = "GAMEOVER!"
-                }
-            }
-            obstacle.draw();
-            obstacle.move();
-        }
-
-        this.bird.move();
-        this.bird.draw();
-
-        requestAnimationFrame(() => this.gameLoop());
-    }
-    public endGame(){
-         for (let obstacle of this.obstacles) {
-                    obstacle.stop();
-                    document.getElementById("score").innerHTML = "GAMEOVER!"
-                }
-    }
-     public static getInstance() {
+    public static getInstance() {
         if (!Game.instance) {
             Game.instance = new Game();
+            Game.instance.showStart();
         }
         return Game.instance;
     }
-}
 
+    public showStart(): void {
+        this.screen = new Screens.StartScreen();
+    }
+    public showGame(): void {
+        this.screen = new Screens.GameScreen();
+    }
+    public gameOver():void{
+        this.screen = new Screens.Score();
+    }
+
+}
 window.addEventListener("load", function () {
     Game.getInstance();
 });
