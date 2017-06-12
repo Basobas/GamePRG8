@@ -12,14 +12,14 @@ class Utils {
     public static checkBorderCollision = (instance1: GameObject): boolean => {
         if (instance1.y < -50) {
             return true;
-        } 
+        }
         else if (instance1.y > 620) {
             return true;
-        } 
-        else {
-           return false;
         }
-    }; 
+        else {
+            return false;
+        }
+    };
 
 
 

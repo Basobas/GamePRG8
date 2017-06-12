@@ -19,8 +19,8 @@ class Game {
     public showGame(): void {
         this.screen = new Screens.GameScreen();
     }
-    public gameOver():void{
-        this.screen = new Screens.Score();
+    public gameOver(s): void {
+        this.screen = new Screens.Score(s);
     }
 
 }

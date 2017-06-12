@@ -73,6 +73,11 @@ gameover{
 
 }
 
+restart{
+    width:600px; height:600px;
+    background-image: url('../images/restart.png');
+}
+
 
 @keyframes skyanimation {
   0% {

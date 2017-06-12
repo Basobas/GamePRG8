@@ -33,11 +33,27 @@ var Bird = (function (_super) {
         _this.speed = 0;
         window.addEventListener("keyup", function (e) { return _this.onKeyUp(e); });
         window.addEventListener("keydown", function (e) { return _this.onKeyDown(e); });
+        _this.div.addEventListener("click", function (e) { return _this.onClick(e); });
         _this.behaviour.draw();
+        _this.observers = [];
         return _this;
     }
     Bird.prototype.move = function () {
         this.behaviour.draw();
+    };
+    Bird.prototype.stop = function () {
+        this.div.remove();
+    };
+    Bird.prototype.subscribe = function (o) {
+        this.observers.push(o);
+    };
+    Bird.prototype.unsubscribe = function () {
+    };
+    Bird.prototype.onClick = function (e) {
+        for (var _i = 0, _a = this.observers; _i < _a.length; _i++) {
+            var o = _a[_i];
+            o.notify();
+        }
     };
     Bird.prototype.onKeyUp = function (event) {
         console.log(event.keyCode);
@@ -109,8 +125,8 @@ var Game = (function () {
     Game.prototype.showGame = function () {
         this.screen = new Screens.GameScreen();
     };
-    Game.prototype.gameOver = function () {
-        this.screen = new Screens.Score();
+    Game.prototype.gameOver = function (s) {
+        this.screen = new Screens.Score(s);
     };
     return Game;
 }());
@@ -119,20 +135,28 @@ window.addEventListener("load", function () {
 });
 var Obstacle = (function (_super) {
     __extends(Obstacle, _super);
-    function Obstacle(x, y) {
+    function Obstacle(x, y, b) {
         var _this = this;
         var container = document.getElementById("container");
         _this = _super.call(this, "obstacle", container, 200, 210, 40, 40) || this;
+        b.subscribe(_this);
         _this.speed = 3.4;
         _this.x = x;
         _this.y = y;
         return _this;
     }
+    Obstacle.prototype.notify = function () {
+        console.log('hallo ik ben notify');
+        this.changeColor(300);
+    };
     Obstacle.prototype.stop = function () {
-        this.speed = 0;
+        this.div.remove();
     };
     Obstacle.prototype.move = function () {
         this.x -= this.speed;
+    };
+    Obstacle.prototype.changeColor = function (deg) {
+        this.div.style.filter = "hue-rotate(" + deg + "deg)";
     };
     return Obstacle;
 }(GameObject));
@@ -226,14 +250,18 @@ var Screens;
             _this.obstacles = new Array();
             requestAnimationFrame(function () { return _this.gameLoop(); });
             _this.intervalID = setInterval(function () { return _this.addRowOfPipes(); }, 3000);
+            _this.score = 0;
+            console.log(window.localStorage.getItem('score'));
             return _this;
         }
         GameScreen.prototype.addRowOfPipes = function () {
             var hole = Math.floor(Math.random() * 8) + 1;
-            console.log(hole);
+            this.score += 1;
+            var scoreDiv = document.getElementById("score");
+            scoreDiv.innerHTML = "Score: " + this.score + " Highscore: " + window.localStorage.getItem('score');
             for (var i = 0; i < 12; i++) {
                 if (i != hole && i != hole + 1 && i != hole + 2) {
-                    this.obstacles.push(new Obstacle(1600, i * 60 + 10));
+                    this.obstacles.push(new Obstacle(1600, i * 60 + 10, this.bird));
                 }
             }
         };
@@ -242,8 +270,11 @@ var Screens;
             var hitCar = false;
             for (var _i = 0, _a = this.obstacles; _i < _a.length; _i++) {
                 var obstacle = _a[_i];
-                if (Utils.checkCollision(this.bird, obstacle) || Utils.checkBorderCollision(this.bird)) {
+                if (Utils.checkCollision(this.bird, obstacle)) {
                     hitCar = true;
+                }
+                if (obstacle.x < -50) {
+                    obstacle.stop();
                 }
                 obstacle.draw();
                 obstacle.move();
@@ -259,12 +290,16 @@ var Screens;
         };
         GameScreen.prototype.endGame = function () {
             clearInterval(this.intervalID);
-            document.getElementById("sky").classList.add("animationpaused");
             for (var _i = 0, _a = this.obstacles; _i < _a.length; _i++) {
                 var obstacle = _a[_i];
                 obstacle.stop();
             }
-            Game.getInstance().gameOver();
+            this.bird.stop();
+            Game.getInstance().gameOver(this.score);
+            var scoreDiv = document.getElementById("score");
+            scoreDiv.innerHTML = "";
+            window.localStorage.setItem('score', "" + this.score);
+            console.log(window.localStorage.getItem('score'));
         };
         return GameScreen;
     }(Screens.View));
@@ -274,7 +309,7 @@ var Screens;
 (function (Screens) {
     var Score = (function (_super) {
         __extends(Score, _super);
-        function Score() {
+        function Score(s) {
             var _this = _super.call(this, 'gameover') || this;
             var btn = document.createElement("restart");
             _this.div.appendChild(btn);
@@ -285,13 +320,18 @@ var Screens;
             TweenLite.set(title, { x: 490, y: -300 });
             var gameoverscore = document.createElement("gameoverscore");
             _this.div.appendChild(gameoverscore);
-            gameoverscore.innerHTML = "Score:";
+            gameoverscore.innerHTML = "Score: " + s;
             TweenLite.set(gameoverscore, { x: 490, y: -300 });
             TweenLite.to(title, 2, { y: 50, ease: Back.easeOut });
             TweenLite.to(gameoverscore, 2, { y: 200, ease: Back.easeOut });
-            TweenLite.to(btn, 2, { delay: 1, y: 320, ease: Back.easeOut });
+            TweenLite.to(btn, 2, { delay: 1, y: 420, ease: Back.easeOut });
+            btn.addEventListener("click", _this.onStartClick.bind(_this));
             return _this;
         }
+        Score.prototype.onStartClick = function () {
+            this.div.remove();
+            Game.getInstance().showGame();
+        };
         return Score;
     }(Screens.View));
     Screens.Score = Score;
