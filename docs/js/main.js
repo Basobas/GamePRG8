@@ -152,6 +152,17 @@ var Utils = (function () {
     };
     return Utils;
 }());
+Utils.checkBorderCollision = function (instance1) {
+    if (instance1.y < -50) {
+        return true;
+    }
+    else if (instance1.y > 620) {
+        return true;
+    }
+    else {
+        return false;
+    }
+};
 var Crashing = (function () {
     function Crashing(b) {
         this.bird = b;
@@ -172,10 +183,9 @@ var Falling = (function () {
         this.bird = b;
     }
     Falling.prototype.draw = function () {
-        this.bird.y += this.bird.speed;
-        this.bird.speed = +3;
-        if (this.bird.y > 615) {
-            this.bird.behaviour = new Crashing(this.bird);
+        if (this.bird.y < 615) {
+            this.bird.y += this.bird.speed;
+            this.bird.speed = +5;
         }
     };
     Falling.prototype.onKeyDown = function (event) {
@@ -192,10 +202,9 @@ var Flying = (function () {
         this.bird = b;
     }
     Flying.prototype.draw = function () {
-        this.bird.y += this.bird.speed;
-        this.bird.speed = -3;
-        if (this.bird.y <= -100) {
-            this.bird.behaviour = new Hit(this.bird);
+        if (this.bird.y > -20) {
+            this.bird.y += this.bird.speed;
+            this.bird.speed = -5;
         }
     };
     Flying.prototype.onKeyUp = function (event) {
@@ -206,24 +215,6 @@ var Flying = (function () {
     Flying.prototype.onKeyDown = function (event) {
     };
     return Flying;
-}());
-var Hit = (function () {
-    function Hit(b) {
-        this.bird = b;
-    }
-    Hit.prototype.draw = function () {
-        document.getElementById("sky").classList.add("animationpaused");
-        this.bird.y += this.bird.speed;
-        this.bird.speed = +5;
-        if (this.bird.y > 615) {
-            this.bird.speed = 0;
-        }
-    };
-    Hit.prototype.onKeyDown = function (event) {
-    };
-    Hit.prototype.onKeyUp = function (event) {
-    };
-    return Hit;
 }());
 var Screens;
 (function (Screens) {
@@ -238,7 +229,7 @@ var Screens;
             return _this;
         }
         GameScreen.prototype.addRowOfPipes = function () {
-            var hole = Math.floor(Math.random() * 9) + 1;
+            var hole = Math.floor(Math.random() * 8) + 1;
             console.log(hole);
             for (var i = 0; i < 12; i++) {
                 if (i != hole && i != hole + 1 && i != hole + 2) {
@@ -251,7 +242,7 @@ var Screens;
             var hitCar = false;
             for (var _i = 0, _a = this.obstacles; _i < _a.length; _i++) {
                 var obstacle = _a[_i];
-                if (Utils.checkCollision(this.bird, obstacle)) {
+                if (Utils.checkCollision(this.bird, obstacle) || Utils.checkBorderCollision(this.bird)) {
                     hitCar = true;
                 }
                 obstacle.draw();
@@ -290,9 +281,14 @@ var Screens;
             TweenLite.set(btn, { x: 650, y: -300 });
             var title = document.createElement("title");
             _this.div.appendChild(title);
-            title.innerHTML = "Bird Fly";
-            TweenLite.set(title, { x: 590, y: -300 });
+            title.innerHTML = "Game Over";
+            TweenLite.set(title, { x: 490, y: -300 });
+            var gameoverscore = document.createElement("gameoverscore");
+            _this.div.appendChild(gameoverscore);
+            gameoverscore.innerHTML = "Score:";
+            TweenLite.set(gameoverscore, { x: 490, y: -300 });
             TweenLite.to(title, 2, { y: 50, ease: Back.easeOut });
+            TweenLite.to(gameoverscore, 2, { y: 200, ease: Back.easeOut });
             TweenLite.to(btn, 2, { delay: 1, y: 320, ease: Back.easeOut });
             return _this;
         }

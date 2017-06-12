@@ -5,11 +5,9 @@ class Flying implements Behaviour {
         this.bird = b;
     }
     draw() {
+        if(this.bird.y > -20){
         this.bird.y += this.bird.speed;
-        this.bird.speed = -3;
-          if (this.bird.y <= -100) {
-            this.bird.behaviour = new Hit(this.bird);
-           
+        this.bird.speed = -5;
         }
     }
     onKeyUp(event: KeyboardEvent): void {

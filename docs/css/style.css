@@ -52,10 +52,15 @@ score {
 }
 
 title {
-
     font-size: 150px;
     font-family: Impact, 'Arial Narrow Bold', sans-serif
 }
+
+gameoverscore {
+    font-size: 100px;
+    font-family: Impact, 'Arial Narrow Bold', sans-serif
+}
+
 
 startbutton {
     width:300px; height:300px;

@@ -20,9 +20,9 @@ namespace Screens {
 
 
         public addRowOfPipes() {
-            // Randomly pick a number between 1 and 9
+            // Randomly pick a number between 1 and 8
             // This will be the hole position
-            let hole = Math.floor(Math.random() * 9) + 1;
+            let hole = Math.floor(Math.random() * 8) + 1;
             console.log(hole);
             // Add the 9 pipes 
             // With one big hole at position 'hole' and 'hole + 1' and 'hole + 2' 3 holes
@@ -45,7 +45,7 @@ namespace Screens {
 
         let hitCar:boolean = false;
             for (let obstacle of this.obstacles) {
-                if (Utils.checkCollision(this.bird, obstacle)) {
+                if (Utils.checkCollision(this.bird, obstacle)||Utils.checkBorderCollision(this.bird)) {
                     hitCar = true;
                     // document.getElementById("sky").classList.add("animationpaused");
                     // for (let obstacle of this.obstacles) {
