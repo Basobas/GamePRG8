@@ -1,13 +1,8 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var GameObject = (function () {
     function GameObject(str, elm, x, y, height, width) {
         this.div = document.createElement(str);
@@ -28,15 +23,14 @@ var Bird = (function (_super) {
     function Bird() {
         var _this = this;
         var container = document.getElementById("container");
-        _this = _super.call(this, "bird", container, 100, 25, 70, 110) || this;
-        _this.behaviour = new Falling(_this);
-        _this.speed = 0;
+        _super.call(this, "bird", container, 100, 25, 70, 110);
+        this.behaviour = new Falling(this);
+        this.speed = 0;
         window.addEventListener("keyup", function (e) { return _this.onKeyUp(e); });
         window.addEventListener("keydown", function (e) { return _this.onKeyDown(e); });
-        _this.div.addEventListener("click", function (e) { return _this.onClick(e); });
-        _this.behaviour.draw();
-        _this.observers = [];
-        return _this;
+        this.div.addEventListener("click", function (e) { return _this.onClick(e); });
+        this.behaviour.draw();
+        this.observers = [];
     }
     Bird.prototype.move = function () {
         this.behaviour.draw();
@@ -88,20 +82,20 @@ var Screens;
     var StartScreen = (function (_super) {
         __extends(StartScreen, _super);
         function StartScreen() {
-            var _this = _super.call(this, 'start') || this;
+            var _this = this;
+            _super.call(this, 'start');
             var btn = document.createElement("startbutton");
-            _this.div.appendChild(btn);
+            this.div.appendChild(btn);
             TweenLite.set(btn, { x: 650, y: -300 });
             var title = document.createElement("title");
-            _this.div.appendChild(title);
+            this.div.appendChild(title);
             title.innerHTML = "Bird Fly";
             TweenLite.set(title, { x: 590, y: -300 });
             TweenLite.to(title, 2, { y: 50, ease: Back.easeOut });
             TweenLite.to(btn, 2, { delay: 1, y: 320, ease: Back.easeOut });
-            btn.addEventListener("click", _this.onStartClick.bind(_this));
-            return _this;
+            btn.addEventListener("click", function (e) { return _this.onClick(e); });
         }
-        StartScreen.prototype.onStartClick = function () {
+        StartScreen.prototype.onClick = function (e) {
             this.div.remove();
             Game.getInstance().showGame();
         };
@@ -136,14 +130,12 @@ window.addEventListener("load", function () {
 var Obstacle = (function (_super) {
     __extends(Obstacle, _super);
     function Obstacle(x, y, b) {
-        var _this = this;
         var container = document.getElementById("container");
-        _this = _super.call(this, "obstacle", container, 200, 210, 40, 40) || this;
-        b.subscribe(_this);
-        _this.speed = 3.4;
-        _this.x = x;
-        _this.y = y;
-        return _this;
+        _super.call(this, "obstacle", container, 200, 210, 40, 40);
+        b.subscribe(this);
+        this.speed = 3.4;
+        this.x = x;
+        this.y = y;
     }
     Obstacle.prototype.notify = function () {
         console.log('hallo ik ben notify');
@@ -174,19 +166,19 @@ var Utils = (function () {
             return false;
         }
     };
+    Utils.checkBorderCollision = function (instance1) {
+        if (instance1.y < -50) {
+            return true;
+        }
+        else if (instance1.y > 620) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
     return Utils;
 }());
-Utils.checkBorderCollision = function (instance1) {
-    if (instance1.y < -50) {
-        return true;
-    }
-    else if (instance1.y > 620) {
-        return true;
-    }
-    else {
-        return false;
-    }
-};
 var Crashing = (function () {
     function Crashing(b) {
         this.bird = b;
@@ -245,14 +237,14 @@ var Screens;
     var GameScreen = (function (_super) {
         __extends(GameScreen, _super);
         function GameScreen() {
-            var _this = _super.call(this, 'gamescreen') || this;
-            _this.bird = new Bird();
-            _this.obstacles = new Array();
+            var _this = this;
+            _super.call(this, 'gamescreen');
+            this.bird = new Bird();
+            this.obstacles = new Array();
             requestAnimationFrame(function () { return _this.gameLoop(); });
-            _this.intervalID = setInterval(function () { return _this.addRowOfPipes(); }, 3000);
-            _this.score = 0;
+            this.intervalID = setInterval(function () { return _this.addRowOfPipes(); }, 3000);
+            this.score = 0;
             console.log(window.localStorage.getItem('score'));
-            return _this;
         }
         GameScreen.prototype.addRowOfPipes = function () {
             var hole = Math.floor(Math.random() * 8) + 1;
@@ -297,8 +289,12 @@ var Screens;
             this.bird.stop();
             Game.getInstance().gameOver(this.score);
             var scoreDiv = document.getElementById("score");
-            scoreDiv.innerHTML = "";
-            window.localStorage.setItem('score', "" + this.score);
+            scoreDiv.innerHTML = "Score: " + 0 + " Highscore: " + window.localStorage.getItem('score');
+            var high = window.localStorage.getItem('score');
+            var numb = +high;
+            if (this.score > numb) {
+                window.localStorage.setItem('score', "" + this.score);
+            }
             console.log(window.localStorage.getItem('score'));
         };
         return GameScreen;
@@ -310,25 +306,32 @@ var Screens;
     var Score = (function (_super) {
         __extends(Score, _super);
         function Score(s) {
-            var _this = _super.call(this, 'gameover') || this;
+            var _this = this;
+            _super.call(this, 'gameover');
             var btn = document.createElement("restart");
-            _this.div.appendChild(btn);
+            this.div.appendChild(btn);
             TweenLite.set(btn, { x: 650, y: -300 });
             var title = document.createElement("title");
-            _this.div.appendChild(title);
+            this.div.appendChild(title);
             title.innerHTML = "Game Over";
             TweenLite.set(title, { x: 490, y: -300 });
             var gameoverscore = document.createElement("gameoverscore");
-            _this.div.appendChild(gameoverscore);
+            this.div.appendChild(gameoverscore);
             gameoverscore.innerHTML = "Score: " + s;
+            TweenLite.set(gameoverscore, { x: 490, y: -300 });
+            var highscore = document.createElement("highscore");
+            this.div.appendChild(highscore);
+            var h = window.localStorage.getItem('score');
+            highscore.innerHTML = "Highscore: " + h;
+            TweenLite.set(highscore, { x: 490, y: -300 });
             TweenLite.set(gameoverscore, { x: 490, y: -300 });
             TweenLite.to(title, 2, { y: 50, ease: Back.easeOut });
             TweenLite.to(gameoverscore, 2, { y: 200, ease: Back.easeOut });
+            TweenLite.to(highscore, 2, { y: 300, ease: Back.easeOut });
             TweenLite.to(btn, 2, { delay: 1, y: 420, ease: Back.easeOut });
-            btn.addEventListener("click", _this.onStartClick.bind(_this));
-            return _this;
+            btn.addEventListener("click", function (e) { return _this.onClick(e); });
         }
-        Score.prototype.onStartClick = function () {
+        Score.prototype.onClick = function (e) {
             this.div.remove();
             Game.getInstance().showGame();
         };

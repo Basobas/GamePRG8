@@ -18,13 +18,13 @@ namespace Screens {
             TweenLite.to(title, 2, { y: 50, ease: Back.easeOut });
             TweenLite.to(btn, 2, { delay: 1, y: 320, ease: Back.easeOut });
 
-            btn.addEventListener("click", this.onStartClick.bind(this));
+            btn.addEventListener("click", (e: MouseEvent) => this.onClick(e));
 
         }
-
-        onStartClick(): void {
-            this.div.remove();
+    public onClick(e: MouseEvent): void {
+        this.div.remove();
             Game.getInstance().showGame();
-        }
+       
+    }
     }
 }

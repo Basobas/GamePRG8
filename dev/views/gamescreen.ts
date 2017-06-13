@@ -16,7 +16,7 @@ namespace Screens {
 
             this.intervalID = setInterval(() => this.addRowOfPipes(), 3000);
             this.score = 0;
-            console.log( window.localStorage.getItem( 'score' ));
+            console.log(window.localStorage.getItem('score'));
         }
 
 
@@ -36,17 +36,12 @@ namespace Screens {
         public gameLoop() {
 
             let hitCar: boolean = false;
-            
+
             for (let obstacle of this.obstacles) {
                 if (Utils.checkCollision(this.bird, obstacle)) {
                     hitCar = true;
-                    // document.getElementById("sky").classList.add("animationpaused");
-                    // for (let obstacle of this.obstacles) {
-                    //     obstacle.stop();
-                    //     this.endGame();
-                    // }
                 }
-                if(obstacle.x < -50){
+                if (obstacle.x < -50) {
                     obstacle.stop();
                 }
                 obstacle.draw();
@@ -66,16 +61,25 @@ namespace Screens {
 
         public endGame() {
             clearInterval(this.intervalID);
-    
+
             for (let obstacle of this.obstacles) {
                 obstacle.stop();
             }
             this.bird.stop();
             Game.getInstance().gameOver(this.score);
             let scoreDiv = document.getElementById("score");
-            scoreDiv.innerHTML = "";
-            window.localStorage.setItem( 'score', ""+ this.score );
-            console.log( window.localStorage.getItem( 'score' ));
+          
+            scoreDiv.innerHTML = "Score: " + 0 + " Highscore: " + window.localStorage.getItem('score');
+
+            let high = window.localStorage.getItem('score');
+            let numb = +high;
+
+            if (this.score > numb) {
+                window.localStorage.setItem('score', "" + this.score);
+                
+            }
+
+            console.log(window.localStorage.getItem('score'));
 
         }
     }

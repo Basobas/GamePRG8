@@ -3,7 +3,7 @@ class Game {
     public static instance: Game;
     private screen: Screens.View;
 
-    private constructor() {
+    constructor() {
     }
     public static getInstance() {
         if (!Game.instance) {

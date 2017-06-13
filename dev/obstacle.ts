@@ -14,17 +14,14 @@ class Obstacle extends GameObject implements Observer {
         // this.y = 350;
         this.x = x;
         this.y = y;
-
-
     }
      public notify() {
         console.log('hallo ik ben notify');
-        this.changeColor(300); //red
+        this.changeColor(300); 
         
     }
     public stop() {
         this.div.remove();
-
     }
     public move(): void {
         this.x -= this.speed;
