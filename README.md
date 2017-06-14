@@ -16,17 +16,29 @@ Gebruik een key om te vliegen.
 Klassendiagram
 ![UML](Uml.png?raw=true "uml")
 
-### - Interface: 
+### Interface: 
 Behavior is een interface voor de verschillende acties van de vogel
-### - Static utility method:
+### Static utility method:
 Om collision te detecten gebruik ik utils.ts dit is een static method
-### - Singleton:
+### Singleton:
 Game is een singleton
-### - Strategy:
+### Strategy:
 De vogel heeft verschilende behaviours die allemaal apart aangeroepen kunnen worden
-### - Encapsulation:
+### Encapsulation:
 Ik maak gebruik van private, public en protected variabeles
-### - Composition:
+### Composition:
 Game heeft een bird en een obstacle
-### - Inheritance:
+### Inheritance:
 Bird en obstacle erven van gameobject
+### Observer:
+De obstacles zijn observers van de bird. De bird is de observerable. Als je op de bird clicked dan worden de obstacles die op het scherm zijn oranje
+### Namespaces:
+Ik heb namespaces gebruikt voor de verschillende schermen die er zijn.
+### Enumeraties:
+Enum.ts slaat de keycodes op die gebruikt worden in de game.
+### Polymorphism:
+Ik gebruik verschillende events. click en toetsen.
+### Library
+Ik gebruik van GreenSock library voor de animaties van het start scherm en het gameover scherm
+
+
