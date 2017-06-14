@@ -70,6 +70,8 @@ Enum.ts is aangemaakt met daarin de Keys die gebruikt worden in Falling en Flyin
 Er wordt gebruik gemaakt van verschillende events: MouseEvent en KeyboardEvent.
 ### Abstract
 In view.ts is View een abstracte class (abstract class View).
+### GameLoop
+De GameLoop wordt netjes gebruikt in GameScreen.
 ### Library
 De gebruikte Library is GreenSock. In StartScreen en Scire wordt TweenLite gebruikt.
 
